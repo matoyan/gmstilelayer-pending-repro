@@ -42,3 +42,11 @@ Both device and Simulator builds passed after the change. The tile-layer impleme
 - **Physical iPhone 17 Pro, iOS 27.0:** successfully launched, then paused at 31 requests / 15 deliveries / 16 pending. First delayed completion: 45.413s. The first subsequently requested local tile arrived at 45.425s. Sixteen local requests were issued after the first completion in the captured interval. See [device mixed.log](device-ios27.0/mixed.log). This is a real-device request log; no device screenshot is included.
 - **iPhone 17 Pro Simulator, iOS 26.5:** repeated all three cases in fresh processes. Mixed again paused at 31 requests / 15 deliveries / 16 pending; baseline and immediate controls each completed 84 requests. See [mixed](simulator-ios26.5-scene/mixed.log), [baseline](simulator-ios26.5-scene/baseline.log), and [immediate](simulator-ios26.5-scene/immediate.log).
 - Updated Simulator screenshots: [mixed before](simulator-ios26.5-scene/mixed-10s.png), [mixed after](simulator-ios26.5-scene/mixed-50s.png), [baseline](simulator-ios26.5-scene/baseline-5s.png), [immediate](simulator-ios26.5-scene/immediate-5s.png).
+
+## Manual Start button
+
+The app now waits for the bottom **Start** button. Changing the selected case also waits for Start. The button and case selector are disabled while requests remain pending.
+
+On iPhone 17 Pro Simulator / iOS 26.5, the button was tapped through the UI after confirming the idle screen. The footer reduces the map viewport to **402 × 612 points**. This run paused at **28 requests / 12 deliveries / 16 pending**, then resumed after the first delayed completion at **45.349s**; a local request followed at **45.353s**. The change in total requests is due to the different viewport, with the same observed 16-pending pause.
+
+See the [idle screen](start-button/ready.png), [screen after the first delayed completion](start-button/after-first-completion.png), and [request log](start-button/mixed.log). The updated app was also built, installed, and launched on the physical iPhone 17 Pro / iOS 27.0.
