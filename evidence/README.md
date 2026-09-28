@@ -50,3 +50,16 @@ The app now waits for the bottom **Start** button. Changing the selected case al
 On iPhone 17 Pro Simulator / iOS 26.5, the button was tapped through the UI after confirming the idle screen. The footer reduces the map viewport to **402 × 612 points**. This run paused at **28 requests / 12 deliveries / 16 pending**, then resumed after the first delayed completion at **45.349s**; a local request followed at **45.353s**. The change in total requests is due to the different viewport, with the same observed 16-pending pause.
 
 See the [idle screen](start-button/ready.png), [screen after the first delayed completion](start-button/after-first-completion.png), and [request log](start-button/mixed.log). The updated app was also built, installed, and launched on the physical iPhone 17 Pro / iOS 27.0.
+
+
+## Implementation and comparison details
+
+- UIKit, one direct `GMSTileLayer` subclass, `mapType = .none`, and `tileSize = 256`. There are no private application dependencies or HTTP tile requests.
+- Fixed camera at latitude 36.72, longitude 138.5, zoom 16; gestures are disabled. Generated 256 × 256 pixel zoom-16 parent images are saved before attaching the layer, with `(parentX + parentY) % 2 == 0` parents saved in mixed cases.
+- Requests above zoom 16 crop the parent image. A zoom-18 request returns a **64 × 64 pixel crop**, without resizing, while `tileSize` remains 256. This preserves the original report's cropping behavior. The requested zoom is recorded, not forced to 18.
+- Every missing-parent request gets its own nonblocking 45-second completion, including requests sharing a parent. There is no application concurrency cap, semaphore, connection pool, or blocking sleep. Completed delayed parents are cached in memory; each case starts with a new temporary directory and empty cache.
+- For independent comparisons, terminate and relaunch for each case. Optional Xcode launch arguments `mixed`, `baseline`, or `immediate` preselect a case; tap Start to begin. Switching cases after completion is also supported for quick visual comparisons.
+- Logs remain in the app's Documents folder and continue beyond 50 seconds. The supplied mixed-case logs capture approximately the first 50 seconds.
+- The repository contains no API key or signing credentials. A locally built app contains the key supplied by its builder and should not be distributed with that key.
+
+The simulated delay isolates pending-request behavior; it does not reproduce real network timeouts or prove the cause of every poor-network rendering problem. Sixteen is an observed value in these runs, not a documented SDK limit or a claim of a queue shared across layers.
