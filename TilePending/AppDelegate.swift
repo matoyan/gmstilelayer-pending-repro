@@ -3,11 +3,23 @@ import GoogleMaps
 
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
-    var window: UIWindow?
-
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions options: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        window = UIWindow(frame: UIScreen.main.bounds)
+        let key = Bundle.main.object(forInfoDictionaryKey: "MapsAPIKey") as? String ?? ""
+        if !key.isEmpty && key != "YOUR_API_KEY" {
+            GMSServices.provideAPIKey(key)
+        }
+        return true
+    }
+}
+
+final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    var window: UIWindow?
+
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession,
+               options connectionOptions: UIScene.ConnectionOptions) {
+        guard let windowScene = scene as? UIWindowScene else { return }
+        window = UIWindow(windowScene: windowScene)
         let key = Bundle.main.object(forInfoDictionaryKey: "MapsAPIKey") as? String ?? ""
         if key.isEmpty || key == "YOUR_API_KEY" {
             let controller = UIViewController()
@@ -21,10 +33,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             controller.view.addSubview(label)
             window?.rootViewController = controller
         } else {
-            GMSServices.provideAPIKey(key)
             window?.rootViewController = ReproViewController()
         }
         window?.makeKeyAndVisible()
-        return true
     }
 }

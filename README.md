@@ -13,6 +13,8 @@ The question under investigation is whether pending asynchronous tile requests p
 
 The deployment target is iOS 16.0. This project was built with Xcode 27.0. Google Maps initialization still requires an API key; only tile retrieval is simulated.
 
+The app uses `UIWindowScene` and a scene delegate, including on iOS 27. The initial revision's legacy app lifecycle crashed at launch on iOS 27; this has been corrected and verified on an iPhone 17 Pro running iOS 27.0.
+
 ## Reproduce
 
 - Start **Mixed · 45s** and leave the app in the foreground for at least 50 seconds. Green tiles are saved PNGs. Orange tiles are generated images delivered after a nonblocking 45-second delay.
@@ -46,5 +48,7 @@ The sample deliberately preserves parent-tile cropping from the original report.
 On iPhone 17 Pro Simulator / iOS 26.5, the standalone sample reproduced a pause at **31 requests, 15 deliveries, and 16 pending requests**. The first delayed completion occurred at 45.857s. A local tile was first requested at 45.899s and delivered at 45.899s. All-local and immediate-response controls each completed 84 requests within the first few seconds.
 
 See [logs, screenshots, and measurement details](evidence/README.md). These are measurements of this sample, not copied timings from the original application harness.
+
+After the scene-lifecycle fix, the same 31-request / 15-delivery / 16-pending pause was also recorded on a physical iPhone 17 Pro running iOS 27.0. The first delayed completion occurred at 45.413s, followed by newly issued requests for local tiles.
 
 No API key, signing team, provisioning profile, build product, or private application dependency is included in the repository. Do not distribute your locally built app binary, which contains your configured key.

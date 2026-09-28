@@ -32,3 +32,13 @@ The sample stops recording this case at approximately 50 seconds. More missing p
 Control logs: [baseline.log](simulator-ios26.5/baseline.log), [immediate.log](simulator-ios26.5/immediate.log).
 
 These observations establish the behavior for this environment. They do not establish a documented concurrency limit or cross-layer queue sharing.
+
+## Verification after the scene-lifecycle fix
+
+The initial revision used the legacy app lifecycle, which caused an immediate launch crash on iOS 27 when built with Xcode 27. The crash was in `UIApplicationEvaluateRuntimeIssueForNoSceneLifecycleAdoption`, before the map was created. The app now creates its window through `UIWindowSceneDelegate` and declares a scene configuration. See [Apple's migration documentation](https://developer.apple.com/documentation/uikit/transitioning-to-the-uikit-scene-based-life-cycle).
+
+Both device and Simulator builds passed after the change. The tile-layer implementation is unchanged.
+
+- **Physical iPhone 17 Pro, iOS 27.0:** successfully launched, then paused at 31 requests / 15 deliveries / 16 pending. First delayed completion: 45.413s. The first subsequently requested local tile arrived at 45.425s. Sixteen local requests were issued after the first completion in the captured interval. See [device mixed.log](device-ios27.0/mixed.log). This is a real-device request log; no device screenshot is included.
+- **iPhone 17 Pro Simulator, iOS 26.5:** repeated all three cases in fresh processes. Mixed again paused at 31 requests / 15 deliveries / 16 pending; baseline and immediate controls each completed 84 requests. See [mixed](simulator-ios26.5-scene/mixed.log), [baseline](simulator-ios26.5-scene/baseline.log), and [immediate](simulator-ios26.5-scene/immediate.log).
+- Updated Simulator screenshots: [mixed before](simulator-ios26.5-scene/mixed-10s.png), [mixed after](simulator-ios26.5-scene/mixed-50s.png), [baseline](simulator-ios26.5-scene/baseline-5s.png), [immediate](simulator-ios26.5-scene/immediate-5s.png).
