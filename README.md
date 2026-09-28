@@ -1,6 +1,6 @@
 # Pending tile requests delay saved tiles
 
-We want saved map tiles to remain displayable under poor or unstable network conditions, when requests for missing tiles can stay pending for a long time.
+Our app is used for hiking, where connectivity can be weak or intermittent. We want saved map tiles to remain displayable under these conditions, when requests for missing tiles can stay pending for a long time.
 
 If the app detects that it is offline (for example, in airplane mode), it can immediately report missing tiles as unavailable. The concern here is a connection that appears available while requests remain pending.
 
