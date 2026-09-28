@@ -31,7 +31,7 @@ Expected: local tiles can be requested and delivered while other requests remain
 - One `GMSMapView`, `mapType = .none`, one custom tile layer with `tileSize = 256`.
 - Fixed camera at latitude 36.72, longitude 138.5, zoom 16. Gestures are disabled to keep comparisons at the same position.
 - Generated 256px parent images at zoom 16, saved in a temporary directory before attaching the layer. In mixed cases, `(parentX + parentY) % 2 == 0` parents are local.
-- Requests above zoom 16 crop the corresponding parent image. The SDK's requested zoom is recorded, not forced to 18.
+- Requests above zoom 16 crop the corresponding parent image. For a zoom-18 request, the sample returns a **64 × 64 pixel crop** of the 256 × 256 pixel zoom-16 parent, without resizing; the layer's `tileSize` remains 256. The SDK's requested zoom is recorded, not forced to 18.
 - Missing parents get one asynchronous completion per SDK request. There is no application concurrency cap, semaphore, network connection pool, or blocking sleep. Multiple requests for the same parent can be pending at once.
 - Completed delayed parents are cached in memory. Each case starts with a new temporary directory and empty cache.
 
@@ -45,7 +45,11 @@ The sample deliberately preserves parent-tile cropping from the original report.
 
 ## Recorded result
 
-Before the bottom Start button was added, on iPhone 17 Pro Simulator / iOS 26.5, the standalone sample reproduced a pause at **31 requests, 15 deliveries, and 16 pending requests**. The first delayed completion occurred at 45.857s. A local tile was first requested at 45.899s and delivered at 45.899s. All-local and immediate-response controls each completed 84 requests within the first few seconds. The Start button reduces the map viewport, so current request totals can differ.
+Before the bottom Start button was added, on iPhone 17 Pro Simulator / iOS 26.5 with a **402 × 710 point viewport**, the standalone sample reproduced a pause at **31 requests, 15 deliveries, and 16 pending requests**. The first delayed completion occurred at 45.857s. A local tile was first requested at 45.899s and delivered at 45.899s. All-local and immediate-response controls each completed 84 requests within the first few seconds.
+
+With the Start button, the same Simulator's viewport is **402 × 612 points**. That run paused at **28 requests, 12 deliveries, and 16 pending requests**, with the first delayed completion at 45.349s and a subsequent local request at 45.353s. The reduced viewport changes request totals while preserving the observed pause.
+
+The supplied mixed-case logs capture roughly the first 50 seconds of those runs. The app itself does not stop logging at 50 seconds; later batches can continue beyond the captured interval.
 
 See [logs, screenshots, and measurement details](evidence/README.md). These are measurements of this sample, not copied timings from the original application harness.
 

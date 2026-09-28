@@ -1,6 +1,6 @@
 # Standalone reproduction evidence
 
-Recorded 2026-09-28 with Xcode 27.0 (27A266a), Maps SDK 10.15.0, iPhone 17 Pro Simulator, iOS 26.5. Viewport: 402 × 710 points, screen scale 3. The SDK requested zoom 18 with the camera at zoom 16.
+The initial Simulator measurements below were recorded on 2026-09-28 with Xcode 27.0 (27A266a), Maps SDK 10.15.0, iPhone 17 Pro Simulator, iOS 26.5. Those runs used a 402 × 710 point viewport at screen scale 3, before the Start button was added. The later [manual Start measurements](#manual-start-button) use a 402 × 612 point viewport. The SDK requested zoom 18 with the camera at zoom 16.
 
 Each case ran in a fresh app process. Screenshot filenames indicate approximate seconds after launch; the app's elapsed time is visible in its header. Log timestamps start when each case's logger is created, before generated local tiles are written and before the map is attached.
 
@@ -19,7 +19,7 @@ Sixteen local requests were issued after that first delayed completion in the re
 45.899 DELIVER id=38 z=18 x=231926 y=102284 parent=16/57981/25571 source=local pending=1
 ```
 
-The sample stops recording this case at approximately 50 seconds. More missing parents are requested after the first batch, leaving another 16 delayed requests pending at that point. The screenshot demonstrates the newly visible green local region; it is not a claim that every tile has finished loading by 50 seconds.
+The supplied log for this run was captured at approximately 50 seconds; the app has no automatic 50-second logging cutoff. More missing parents are requested after the first batch, leaving another 16 delayed requests pending at that point. The screenshot demonstrates the newly visible green local region; it is not a claim that every tile has finished loading by 50 seconds.
 
 | Waiting (about 10s) | After first delayed completions (about 50s) |
 | --- | --- |

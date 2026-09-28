@@ -11,14 +11,12 @@
 		7A7A3A3A89CDC1B270D1BC22 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1568E5B70068469F0785402B /* AppDelegate.swift */; };
 		7C8F5D029780783F82B691C5 /* ReproViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC58245747892DDB5FA4C814 /* ReproViewController.swift */; };
 		93E880E5F605ADBB2B397EA2 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = EA61A5DFE98B18C61D0C87E0 /* GoogleMaps */; };
-		F2510677015D7F6AAD49B800 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 575957388B0E16B47009E15C /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1568E5B70068469F0785402B /* AppDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2FB562F0DB1318B4FAEBD7E1 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3668F7D7E61245137072D3C7 /* Default.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Default.xcconfig; sourceTree = "<group>"; };
-		575957388B0E16B47009E15C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		6C4802B97277EC0B04FF6998 /* ReproTileLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ReproTileLayer.swift; sourceTree = "<group>"; };
 		776E89BDC582736356F4EC22 /* Local.xcconfig.example */ = {isa = PBXFileReference; includeInIndex = 1; path = Local.xcconfig.example; sourceTree = "<group>"; };
 		8CB046ACD22AED07E8DCF301 /* TilePending.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TilePending.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -30,7 +28,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2510677015D7F6AAD49B800 /* Foundation.framework in Frameworks */,
 				93E880E5F605ADBB2B397EA2 /* GoogleMaps in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,18 +49,9 @@
 			isa = PBXGroup;
 			children = (
 				6FB3B3D3BFCD33260C603FB2 /* Products */,
-				6C1D9ABE9D74202DFDB0EEF7 /* Frameworks */,
 				E05EAD4C327DC633170138F4 /* TilePending */,
 				13C7513C58AC69195F6B3C27 /* Config */,
 			);
-			sourceTree = "<group>";
-		};
-		6C1D9ABE9D74202DFDB0EEF7 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				DDFCFBE67422016221B4D38E /* iOS */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		6FB3B3D3BFCD33260C603FB2 /* Products */ = {
@@ -72,14 +60,6 @@
 				8CB046ACD22AED07E8DCF301 /* TilePending.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		DDFCFBE67422016221B4D38E /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				575957388B0E16B47009E15C /* Foundation.framework */,
-			);
-			name = iOS;
 			sourceTree = "<group>";
 		};
 		E05EAD4C327DC633170138F4 /* TilePending */ = {
